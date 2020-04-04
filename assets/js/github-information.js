@@ -16,6 +16,32 @@ function userInformationHTML(user) {
         </div>`
 }
 
+// Display repo data on the screen repoData
+
+function repoInformationHTML(repos) {
+    if (repos.length == 0) {
+        return `<div class="clearfix repo-list">No repost!</div>`;
+    }
+
+    // Map returns an array with the results of this function
+
+    var listItemsHTML = repos.map(function(repo) {
+        return `<li>
+                    <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+                </li>`;
+    });
+
+//pending resolve the bug that if there's no text in the box, it displays the repositories for the last user that was in there
+
+    return `<div class="clearfix repo-list">
+                <p>
+                    Repo List:</strong>
+                </p>
+                <ul>
+                    ${listItemsHTML.join("\n")}
+                </ul>
+            </div>`;
+}
 
 function fetchGitHubInformation(event) {
     
@@ -35,11 +61,23 @@ function fetchGitHubInformation(event) {
         </div>`);
 
     $.when(
-        $.getJSON(`https://api.github.com/users/${username}`)
+        $.getJSON(`https://api.github.com/users/${username}`),
+
+        // List the repositories for that individual user
+
+        $.getJSON(`https://api.github.com/users/${username}/repos`)
     ).then(
-        function(response) {
-            var userData = response;
+        function(firstResponse, secondResponse) {
+
+            // When we do two calls like this, the when() method packs a response up into arrays
+            // So we need to put the indexes in there for these responses
+
+            var userData = firstResponse [0];
+            var repoData = secondResponse [0];
+
             $("#gh-user-data").html(userInformationHTML(userData));
+            $("#gh-repo-data").html(repoInformationHTML(repoData));
+
         }, function(errorResponse) {
             if (errorResponse.status === 404) {
                 $("#gh-user-data").html(
