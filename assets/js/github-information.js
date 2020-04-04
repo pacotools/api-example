@@ -13,7 +13,7 @@ function userInformationHTML(user) {
                 </a>
             </div>
             <p>Followers: ${user.followers} - Following ${user.following} <br> Repos: ${user.public_repos}</p>
-        </div>`
+        </div>`;
 }
 
 // Display repo data on the screen repoData
@@ -35,7 +35,7 @@ function repoInformationHTML(repos) {
 
     return `<div class="clearfix repo-list">
                 <p>
-                    Repo List:</strong>
+                    <strong>Repo List:</strong>
                 </p>
                 <ul>
                     ${listItemsHTML.join("\n")}
@@ -78,7 +78,8 @@ function fetchGitHubInformation(event) {
             $("#gh-user-data").html(userInformationHTML(userData));
             $("#gh-repo-data").html(repoInformationHTML(repoData));
 
-        }, function(errorResponse) {
+        }, 
+        function(errorResponse) {
             if (errorResponse.status === 404) {
                 $("#gh-user-data").html(
                     `<h2>No info found for user ${username}</h2>`);
