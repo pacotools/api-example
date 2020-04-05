@@ -44,7 +44,13 @@ function repoInformationHTML(repos) {
 }
 
 function fetchGitHubInformation(event) {
-    
+
+  /* Bug: When we want to get rid of is the issue with our gh-repo-data
+     div not being cleared when there's an empty text box */
+
+     $("gh-user-data").html("");
+     $("gh-repo-data").html("");
+
     var username = $("#gh-username").val();
 
     if (!username) {
@@ -54,31 +60,37 @@ function fetchGitHubInformation(event) {
 
     // display a loader that is an animated gif file that will just keep
     // repeating itself while data has been accessed.
-    
+
     $("#gh-user-data").html(
         `<div id="loader">
             <img src="assets/css/loader.gif" alt="loading..."/>
         </div>`);
 
     $.when(
-        $.getJSON(`https://api.github.com/users/${username}`),
+        // Este codigo provoca que se active CORS error
+        // $.getJSON(`https://api.github.com/users/${username}`),
+        // $.getJSON(`https://api.github.com/users/${username}/repos`)
 
+        // Error corregido consultando: https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
+
+        $.getJSON(`https://cors-anywhere.herokuapp.com/https://api.github.com/users/${username}`),
+    
         // List the repositories for that individual user
-
-        $.getJSON(`https://api.github.com/users/${username}/repos`)
+        $.getJSON(`https://cors-anywhere.herokuapp.com/https://api.github.com/users/${username}/repos`)
+        
     ).then(
         function(firstResponse, secondResponse) {
 
             // When we do two calls like this, the when() method packs a response up into arrays
             // So we need to put the indexes in there for these responses
 
-            var userData = firstResponse [0];
-            var repoData = secondResponse [0];
+            var userData = firstResponse[0];
+            var repoData = secondResponse[0];
 
             $("#gh-user-data").html(userInformationHTML(userData));
             $("#gh-repo-data").html(repoInformationHTML(repoData));
 
-        }, 
+        },
         function(errorResponse) {
             if (errorResponse.status === 404) {
                 $("#gh-user-data").html(
@@ -91,3 +103,5 @@ function fetchGitHubInformation(event) {
         }
     );
 }
+
+$(document).ready(fetchGitHubInformation);

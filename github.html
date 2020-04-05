@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<!--<html lang="en">-->
+<html lang="en">
 
 <head>
-    <!--<meta charset="UTF-8">-->
-    <!--<meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" type="text/css" />
-    
-    <!-- GitHub Styles -->
-    <link rel="stylesheet" href="assets/css/github-styles.css" type="text/css">
-
+    <link rel="stylesheet" href="assets/css/github-styles.css" type="text/css" />
     <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
-    
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    
+
     <!-- Our JavaScript file -->
     <script type="text/javascript" src="assets/js/github-information.js"></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rosie</title>
 </head>
 
 <body>
     <header>
         <div class="row no-gutters">
             <a href="index.html" class="col-md-4 logo">
-                
+
             </a>
             <div class="col-md-8">
                 <div class="row no-gutters bg-color-name-title">
@@ -74,11 +72,11 @@
                         enters something into the textbox. -->
 
                     <input type="text" id="gh-username" value="octocat" oninput="fetchGitHubInformation()" />
-                    
+
                     <!-- We've created a <div> with the ID of gh-user- data to
                         present the user information and then a repo data <div>,
                         which is going to present the repository information. -->
-                    
+
                     <div id="gh-user-data"></div>
                     <div id="gh-repo-data"></div>
 
