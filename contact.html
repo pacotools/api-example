@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--<html lang="en">-->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.1/css/hover-min.css" type="text/css" />
@@ -19,6 +18,8 @@
             emailjs.init("user_pvCMz8TBk3L1V1yxn8D4V");
         })();
     </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 <body>
@@ -60,7 +61,11 @@
                 <h5 class="uppercase text-center">Let's work together!</h5>
 
                 <div class="center-form">
-                    <form>
+
+                    <!-- we update our form element so that when a form has been submitted, we want to invoke a function 
+                        that will send the email. -->
+
+                    <form onsubmit="return sendEmail(this);" >
                         <input type="text" name="name" id="fullname" class="form-control" placeholder="Name" required />
                         <input type="email" name="email" id="emailaddress" class="form-control" placeholder="Email" required />
                         <textarea rows="5" name="projectsummary" id="projectsummary" class="form-control" placeholder="Project description" required></textarea>
@@ -137,5 +142,9 @@
             </div>
         </div>
     </footer>
+
+    <!-- So now we can go ahead and link in a new script file, which is going to contain our sendMail() function. -->
+    <script src="assets/js/sendEmail.js"></script>
+
 </body>
 </html>
