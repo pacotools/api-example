@@ -77,7 +77,7 @@ function fetchGitHubInformation(event) {
     
         // List the repositories for that individual user
         $.getJSON(`https://cors-anywhere.herokuapp.com/https://api.github.com/users/${username}/repos`)
-        
+
     ).then(
         function(firstResponse, secondResponse) {
 
@@ -95,9 +95,28 @@ function fetchGitHubInformation(event) {
             if (errorResponse.status === 404) {
                 $("#gh-user-data").html(
                     `<h2>No info found for user ${username}</h2>`);
+
+            // Error 403 (means forbidden): "API rate limit exceeded..."
+            // This is called "throttling", and it's designed to preven
+            // users from making too many API requests and putting GitHub
+            // servers under stress.
+
+            } else if (errorResponse.status === 403) {
+                
+                // The date that we want to retrieve is actually stored
+                // inside our errorResponse inside the headers, particularly
+                // X-RateLimit-Reset header. This is the header that's 
+                // provide by GitHub to helpfully let us know whn our quota
+                // will be reset and when we can start using the API again.
+                // We need to multiply it by 1000 and then turn it into a date object.
+                // We're going to use the toLocalTimeString() and pick up your
+                // location from your browser and print the local time.
+                
+                var resetTime = new Date(errorResponse.getRespnseHeader('X-RateLimit-Reset')*1000);
+                $("#gh-user-data").html(`<h4>Too many request, please wait until ${resetTime.toLocaleTimeString()}</h4>`);
             } else {
                 console.log(errorResponse);
-                $("#gh-user-data").html(
+                    $("#gh-user-data").html(
                     `<h2>Error: ${errorResponse.responseJSON.message}</h2>`);
             }
         }
